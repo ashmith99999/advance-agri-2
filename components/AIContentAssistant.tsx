@@ -3,10 +3,10 @@ import { Machinery, TrainingModule } from '../types';
 import { Sparkles, Tractor, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 import { GoogleGenAI, Type } from "@google/genai";
 
-// FIX: Initialize the GoogleGenAI client according to coding guidelines.
+// Fix: Initialized the GoogleGenAI client according to coding guidelines.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-// FIX: Define schemas for structured JSON output from the model.
+// Fix: Defined schemas for structured JSON output from the model.
 const machinerySchema = {
   type: Type.OBJECT,
   properties: {
@@ -78,7 +78,7 @@ const AIContentAssistant: React.FC<AIContentAssistantProps> = ({ onAddMachinery,
     setError('');
     setGeneratedContent(null);
     try {
-        // FIX: Replaced mock function with a real Gemini API call for content generation.
+        // Fix: Replaced mock function with a real Gemini API call for content generation.
         const model = 'gemini-2.5-flash';
         const schema = task === 'machinery' ? machinerySchema : trainingSchema;
         const systemInstruction = task === 'machinery' 

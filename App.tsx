@@ -20,10 +20,10 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
-        if (session) {
+        if (session?.user) {
           const { data: profile, error } = await supabase
             .from('profiles')
             .select('*')
@@ -36,7 +36,7 @@ const App = () => {
             setCurrentView('login');
           } else if (profile) {
             const user: User = {
-              name: profile.name,
+              name: profile.name || session.user.email,
               email: session.user.email!,
               phone: profile.phone,
               memberSince: new Date(profile.member_since).getFullYear().toString(),
@@ -53,6 +53,10 @@ const App = () => {
             } else {
                 setCurrentView('main');
             }
+          } else {
+             console.warn("User has a session but no profile. Forcing sign out.");
+             await supabase.auth.signOut();
+             // The signOut will trigger this listener again, handling the logged-out state.
           }
         } else {
           setCurrentUser(null);
@@ -61,18 +65,9 @@ const App = () => {
         setIsLoading(false);
       }
     );
-    
-    // Check for initial session
-    const checkInitialSession = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            setIsLoading(false);
-        }
-    };
-    checkInitialSession();
 
     return () => {
-      authListener.subscription.unsubscribe();
+      subscription.unsubscribe();
     };
   }, []);
   
