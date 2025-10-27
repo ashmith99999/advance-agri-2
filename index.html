@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriRent - Smart Machinery Rental</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        /* Login Page Theme (Dark & Immersive) */
+        --primary-color: #2E8B57; /* SeaGreen */
+        --accent-color: #F5F5FF;
+        --text-color: #F5F5F5;
+        --subtle-text-color: rgba(245, 245, 245, 0.7);
+        --card-bg: rgba(0, 0, 0, 0.2);
+        --input-bg: rgba(0, 0, 0, 0.2);
+        --input-glow-color: rgba(46, 139, 87, 0.5);
+        --button-bg: rgba(46, 139, 87, 0.7);
+        --button-hover-bg: #2E8B57;
+        
+        /* Main App Theme (Light, Airy, Nostalgic) */
+        --app-bg: transparent; /* Changed for image backgrounds */
+        --app-card-bg: rgba(255, 255, 255, 0.65);
+        --app-primary: #2E8B57; /* SeaGreen, for consistency */
+        --app-primary-light: #eaf3ee;
+        --app-secondary: #DAA520; /* Golden Harvest accent */
+        --app-text-primary: #1f2937; /* Gray 800 for better contrast */
+        --app-text-secondary: #4b5563; /* Gray 600 */
+        --app-border: rgba(229, 231, 235, 0.6); /* Gray 200 with alpha */
+        --app-subtle-bg: rgba(249, 250, 251, 0.6); /* Gray 50 with alpha */
+        --app-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        --app-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .app-background-container {
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        transition: background-image 0.8s ease-in-out;
+      }
+      
+      .bg-view-main {
+        background-image: url('https://images.unsplash.com/photo-1437419764061-2473afe69fc2?q=80&w=2940&auto=format&fit=crop');
+      }
+      .bg-view-profile {
+        background-image: url('https://images.unsplash.com/photo-1445217143648-375249421b39?q=80&w=2874&auto=format&fit=crop');
+      }
+      .bg-view-owner {
+         background-image: url('https://images.unsplash.com/photo-1621929749718-b8a2e73f2a89?q=80&w=2940&auto=format&fit=crop');
+      }
+       .bg-view-admin {
+         background-image: url('https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=2940&auto=format&fit=crop');
+      }
+      
+      .frosted-card {
+        background-color: var(--app-card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .frosted-subtle {
+        background-color: var(--app-subtle-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+      @keyframes fadeInScaleUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .animate-login-card {
+        animation: fadeInScaleUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      }
+      
+      .animate-fade-in-up {
+        animation: fadeInScaleUp 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      }
+
+      .input-focus-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--primary-color);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      
+      .input-wrapper input:focus + .input-focus-line {
+        transform: scaleX(1);
+      }
+      
+      .input-wrapper input:focus {
+        box-shadow: inset 0 0 10px 0 var(--input-glow-color);
+      }
+
+      .login-btn {
+        position: relative;
+        overflow: hidden;
+        transition: color 0.4s ease-out, background-color 0.4s ease-out;
+        z-index: 1;
+        background-color: var(--button-bg);
+      }
+
+      .login-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--button-hover-bg);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: -1;
+      }
+
+      .login-btn:hover {
+        color: var(--accent-color);
+      }
+
+      .login-btn:hover::before {
+        transform: scaleX(1);
+      }
+
+      .login-btn .arrow-icon {
+        transition: transform 0.3s ease-out;
+      }
+
+      .login-btn:hover .arrow-icon {
+        transform: translateX(5px);
+      }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.544.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.22.0",
+    "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.44.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
